@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css'
+import './styles.css'
 import React, { useState, useEffect } from 'react'
-import services from './services'
+//import services from './services'
 
 function App() {
   const [values, setValues] = useState({ entity: '', data: [], newEntityTitle: '', newEntityDesc: '' })
@@ -9,6 +10,7 @@ function App() {
   const [isSaving, setSaving] = useState( false )
   const [images, setImages] = useState([])
   const [imageURLs, setImageURLs] = useState([])
+  const [selectedFile, setSelectedFile] = useState();
 
   const [data, setData] = useState([])
 
@@ -36,6 +38,7 @@ function App() {
   }
 
     function onImageChange(e) {
+        setSelectedFile(e.target.files[0])
         setImages([...e.target.files])
     }
 
@@ -76,15 +79,24 @@ function App() {
       return 
     }
 
+    if (!values.selectedFile) {
+        console.warn("Image not selected")
+    }
+
     setSaving(true)
 //    await services.createEntity( values.entity, JSON.parse( values.newEntity ) )
     setSaving(false)
 
     setLoading(true)
+
+    const formData = new FormData();
+    formData.append('file', selectedFile)
+    formData.append('title', values.newEntityTitle)
+    formData.append('description', values.newEntityDesc)
+
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json'  },
-        body: JSON.stringify({ title: values.newEntityTitle, description: values.newEntityDesc })
+        body: formData
     };
     fetch('http://172.17.0.1:3000/submit', requestOptions)
       .then(response => response.json());
@@ -146,21 +158,21 @@ function App() {
         }
 
         <div style={{marginTop: "75px"}}>
-          <h3>Results: {data ? "data not null" : "data null"}</h3>
           <div>
       {data ? (
           <table className="table table-striped">
             <thead>
-                <th scope="col">ID</th>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
+                <th scope="col">Image</th>
             </thead>
             <tbody>
           {data.map((element, index) => (
               <tr>
-                  <td>{element.id}</td>
                   <td>{element.title}</td>
                   <td>{element.description}</td>
+                  <td><img alt="imagethumb" src={`http://172.17.0.1:3000/${element.image}`}></img></td>
+
               </tr>
           ))}
             </tbody>
