@@ -1,6 +1,6 @@
 FROM node:12.18.2 as build
 
-ARG REACT_APP_SERVICES_HOST=/services/m
+#ARG REACT_APP_SERVICES_HOST=/services/m
 
 WORKDIR /app
 

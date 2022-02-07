@@ -15,7 +15,7 @@ function App() {
   const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('http://172.17.0.1:3000/')
+        fetch('http://fdproxy:8080/api')
             .then((res) => res.json())
             .then((res) => setData(res))
             .catch((err) => console.log('error'))
@@ -61,7 +61,7 @@ function App() {
     }
 
     // TODO clean up
-    fetch('http://172.17.0.1:3000/entries/' + values.entity)
+    fetch('http://fdproxy:8080/api/entries/' + values.entity)
         .then((res) => res.json())
         .then((res) => setData([res]))
         .catch((err) => console.log('error'))
@@ -98,7 +98,7 @@ function App() {
         method: 'POST',
         body: formData
     };
-    fetch('http://172.17.0.1:3000/submit', requestOptions)
+    fetch('http://fdproxy:8080/api/submit', requestOptions)
       .then(response => response.json());
     //const entities = await services.getAllEntries()
     setLoading(false)
@@ -171,7 +171,7 @@ function App() {
               <tr>
                   <td>{element.title}</td>
                   <td>{element.description}</td>
-                  <td><img alt="imagethumb" src={`http://172.17.0.1:3000/${element.image}`}></img></td>
+                  <td><img alt="imagethumb" src={`http://fdproxy:8080/${element.image}`}></img></td>
 
               </tr>
           ))}
