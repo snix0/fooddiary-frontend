@@ -1,21 +1,11 @@
-FROM node:12.18.2 as build
-
-#ARG REACT_APP_SERVICES_HOST=/services/m
+FROM golang
 
 WORKDIR /app
 
-COPY ./package.json /app/package.json
-COPY ./package-lock.json /app/package-lock.json
-
-RUN yarn install
+ENV GOPATH=
 
 COPY . .
 
-RUN yarn build
+EXPOSE 80
 
-
-FROM nginx
-
-COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
-
-COPY --from=build /app/build /usr/share/nginx/html
+CMD [ "go", "run", "/app/server.go" ]

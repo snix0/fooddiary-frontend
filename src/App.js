@@ -171,7 +171,7 @@ function App() {
               <tr>
                   <td>{element.title}</td>
                   <td>{element.description}</td>
-                  <td><img alt="imagethumb" src={`http://fdproxy:8080/${element.image}`}></img></td>
+                  <td><img alt="imagethumb" src={`/${element.image}`}></img></td>
 
               </tr>
           ))}
