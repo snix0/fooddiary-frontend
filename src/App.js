@@ -15,7 +15,7 @@ function App() {
   const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch('http://fdproxy:8080/api')
+        fetch('http://fdproxy/api')
             .then((res) => res.json())
             .then((res) => setData(res))
             .catch((err) => console.log('error'))
@@ -61,7 +61,7 @@ function App() {
     }
 
     // TODO clean up
-    fetch('http://fdproxy:8080/api/entries/' + values.entity)
+    fetch('http://fdproxy/api/entries/' + values.entity)
         .then((res) => res.json())
         .then((res) => setData([res]))
         .catch((err) => console.log('error'))
@@ -98,7 +98,7 @@ function App() {
         method: 'POST',
         body: formData
     };
-    fetch('http://fdproxy:8080/api/submit', requestOptions)
+    fetch('http://fdproxy/api/submit', requestOptions)
       .then(response => response.json());
     //const entities = await services.getAllEntries()
     setLoading(false)
